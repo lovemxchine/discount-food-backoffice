@@ -1,12 +1,12 @@
-
-import "./App.css";
+import React from "react";
+import LoginPage from "./pages/loginPage";
+import SideBarComponent from "./components/SideBar";
 
 function App() {
- 
-
   return (
     <>
-    test 
+      {/* <SideBarComponent /> */}
+      <LoginPage />
     </>
   );
 }
