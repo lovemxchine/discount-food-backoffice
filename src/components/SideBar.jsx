@@ -6,13 +6,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -20,11 +18,12 @@ import Avatar from "@mui/material/Avatar";
 import PeopleIcon from "@mui/icons-material/People";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import AssessmentIcon from "@mui/icons-material/Assessment";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
-  const { window } = props;
+  const { window, children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -82,24 +81,32 @@ function ResponsiveDrawer(props) {
 
       <Divider />
       <List>
-        {["รายการผู้ใช้", "ร้านค้าทั้งหมด", "กล่องรายงาน"].map(
-          (text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index === 0 ? (
-                    <PeopleIcon />
-                  ) : index === 1 ? (
-                    <StorefrontIcon />
-                  ) : (
-                    <AssessmentIcon />
-                  )}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          )
-        )}
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/users">
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary="รายการผู้ใช้" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/stores">
+            <ListItemIcon>
+              <StorefrontIcon />
+            </ListItemIcon>
+            <ListItemText primary="ร้านค้าทั้งหมด" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/reports">
+            <ListItemIcon>
+              <AssessmentIcon />
+            </ListItemIcon>
+            <ListItemText primary="กล่องรายงาน" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </div>
   );
@@ -180,8 +187,7 @@ function ResponsiveDrawer(props) {
       >
         <Toolbar />
         {/* ไว้ใส่ข้อมูลนะจั้บ */}
-        <Typography sx={{ marginBottom: 2 }}></Typography>
-        <Typography sx={{ marginBottom: 2 }}></Typography>
+        {children}
       </Box>
     </Box>
   );
@@ -189,6 +195,9 @@ function ResponsiveDrawer(props) {
 
 ResponsiveDrawer.propTypes = {
   window: PropTypes.func,
+  children: PropTypes.node,
 };
+
+
 
 export default ResponsiveDrawer;

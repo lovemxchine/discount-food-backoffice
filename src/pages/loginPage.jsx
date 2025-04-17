@@ -45,25 +45,25 @@ function LoginPage() {
                 />
               </div>
 
-                <Button
-                  variant="contained"
-                  sx={{
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#77bfa3",
+                  "&:hover": {
                     backgroundColor: "#77bfa3",
-                    "&:hover": {
-                      backgroundColor: "#77bfa3",
-                    },
-                    "&:focus": {
-                      backgroundColor: "#77bfa3",
-                    },
-                    "&.MuiButton-root": {
-                      outline: "none",
-                    },
-                  }}
-                  className="w-full text-white p-2 text-lg"
-                  type="submit"
-                >
-                  เข้าสู่ระบบ
-                </Button>
+                  },
+                  "&:focus": {
+                    backgroundColor: "#77bfa3",
+                  },
+                  "&.MuiButton-root": {
+                    outline: "none",
+                  },
+                }}
+                className="w-full text-white p-2 text-lg"
+                type="submit"
+              >
+                เข้าสู่ระบบ
+              </Button>
             </Box>
           </CardContent>
         </Card>
