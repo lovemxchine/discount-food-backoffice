@@ -7,11 +7,9 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Divider } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import SendIcon from "@mui/icons-material/Send";
-import Stack from "@mui/material/Stack";
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -24,25 +22,20 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
 export default function SimpleContainer() {
+  const [status, setStatus] = React.useState("");
+
+  const handleChange = (event) => {
+    setStatus(event.target.value);
+  };
   return (
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="xl">
         <Box sx={{ bgcolor: "#D3D3D3", p: 2 }}>
-          <div className="text-center text-3xl">ข้อมูลของร้านค้าที่รอลงทะเบียน</div>
+          <div className="text-center text-3xl">
+            ข้อมูลของร้านค้าที่รอลงทะเบียน
+          </div>
           <Box
             sx={{
               flexGrow: 1,
@@ -57,25 +50,25 @@ export default function SimpleContainer() {
               <div className="text-center text-3xl">ข้อมูลร้านค้า</div>
             </Box>
             <Grid container spacing={2}>
-              <Grid size={6}>
+              <Grid size={4}>
                 <div>ชื่อร้านค้า</div>
-                <Item>size=6</Item>
-              </Grid>
-              <Grid size={6}>
-                <div>สาขา</div>
-                <Item>size=6</Item>
-              </Grid>
-              <Grid size={6}>
-                <div>อีเมล์</div>
-                <Item>size=6</Item>
-              </Grid>
-              <Grid size={8}>
-                <div>เลขที่อยู่ / ข้อมูลสถานที่</div>
-                <Item>size=8</Item>
+                <Item>size=4</Item>
               </Grid>
               <Grid size={4}>
-                <div>จังหวัด</div>
+                <div>สาขา</div>
                 <Item>size=4</Item>
+              </Grid>
+              <Grid size={4}>
+                <div>อีเมล์</div>
+                <Item>size=4</Item>
+              </Grid>
+              <Grid size={6}>
+                <div>เลขที่อยู่ / ข้อมูลสถานที่</div>
+                <Item>size=6</Item>
+              </Grid>
+              <Grid size={3}>
+                <div>จังหวัด</div>
+                <Item>size=3</Item>
               </Grid>
               <Grid size={3}>
                 <div>อำเภอ / เขต</div>
@@ -89,39 +82,59 @@ export default function SimpleContainer() {
                 <div>รหัสไปรษณีย์</div>
                 <Item>size=2</Item>
               </Grid>
-              <Grid size={3}>
+              <Grid size={2}>
                 <div>เบอร์ติดต่อ</div>
-                <Item>size=3</Item>
+                <Item>size=2</Item>
               </Grid>
-              <Grid size={3}>
+              <Grid size={2}>
                 <div>เวลาเปิด</div>
-                <Item>size=3</Item>
+                <Item>size=2</Item>
               </Grid>
-              <Grid size={3}>
+              <Grid size={2}>
                 <div>เวลาปิด</div>
-                <Item>size=3</Item>
+                <Item>size=2</Item>
               </Grid>
             </Grid>
-            <div className="flex justify-center items-center mt-6">
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
+            <div className="flex justify-center items-center mt-6 space-x-4">
+              <label
+                htmlFor="status-select"
+                className="font-medium"
               >
-                รูปใบทะเบียนพาณิชย์
-                <VisuallyHiddenInput
-                  type="file"
-                  onChange={(event) => console.log(event.target.files)}
-                  multiple
-                />
+                สถานะ :
+              </label>
+
+              <select
+                id="status-select"
+                value={status}
+                onChange={handleChange}
+                className="bg-white border border-black rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="normal">ใช้งานปกติ</option>
+                <option value="temporary">ระงับการใช้งานชั่วคราว</option>
+                <option value="permanent">ระงับการใช้งานถาวร</option>
+              </select>
+
+              <Button
+                variant="contained"
+                endIcon={<SendIcon />}
+                sx={{
+                  backgroundColor: "bg-blue-400", 
+                  "&:hover": { backgroundColor: "bg-blue-800" },
+                  paddingX: "16px",
+                  paddingY: "8px",
+                  borderRadius: "8px",
+                  textTransform: "none",
+                }}
+              >
+                ยืนยันการแก้ไข
               </Button>
             </div>
-            <Divider sx={{ borderBottomWidth: "2px", margin: "2rem" }} />
 
+            <Divider sx={{ borderBottomWidth: "2px", margin: "2rem" }} />
             <Box>
-              <div className="text-center text-3xl mt-4">ข้อมูลของ คนดูแล / เจ้าของ</div>
+              <div className="text-center text-3xl mt-4">
+                ข้อมูลของ คนดูแล / เจ้าของ
+              </div>
             </Box>
             <Box sx={{}} className="mt-4">
               <Grid container spacing={2}>
@@ -165,35 +178,11 @@ export default function SimpleContainer() {
                   <div>ตำบล / แขวง</div>
                   <Item>size=2</Item>
                 </Grid>
-                <Grid size={1}>
+                <Grid size={2}>
                   <div>รหัสไปรษณีย์</div>
-                  <Item>size=1</Item>
+                  <Item>size=2</Item>
                 </Grid>
               </Grid>
-              <div className="flex justify-center items-center mt-6">
-                <Stack direction="row" spacing={2}>
-                  <Button
-                    variant="contained"
-                    endIcon={<DeleteIcon />}
-                    sx={{
-                      backgroundColor: "red",
-                      "&:hover": { backgroundColor: "darkred" },
-                    }}
-                  >
-                    ปฏิเสธการลงทะเบียน
-                  </Button>
-                  <Button
-                    variant="contained"
-                    endIcon={<SendIcon />}
-                    sx={{
-                      backgroundColor: "green",
-                      "&:hover": { backgroundColor: "darkgreen" },
-                    }}
-                  >
-                    ยืนยันการลงทะเบียน
-                  </Button>
-                </Stack>
-              </div>
             </Box>
           </Box>
         </Box>
