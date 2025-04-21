@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
+
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -8,11 +9,13 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Divider,CircularProgress } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SendIcon from "@mui/icons-material/Send";
+import Stack from "@mui/material/Stack";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
   ...theme.typography.body2,
@@ -24,22 +27,29 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
-export default function SimpleContainer() {
-  const [status, setStatus] = React.useState("");
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
-  const handleChange = (event) => {
-    setStatus(event.target.value);
-  };
-
+export default function RegisApprove() {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const { id } = useParams();
-  const shop = shops.find((shop) => shop.shopId === id);
+  const shop = shops.find((shop) => shop.id === id);
 
   const fetchRegistrationShops = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/customer/availableShop"
+        "http://localhost:3000/admin/fetchRegisterShops/"
       );
       console.log("Fetched Shops:", res.data);
       setShops(res.data.data);
@@ -52,6 +62,12 @@ export default function SimpleContainer() {
   useEffect(() => {
     fetchRegistrationShops();
   }, []);
+
+  const formatTime = (timeString) => {
+    if (!timeString) return "-";
+    const match = timeString.match(/\(([^)]+)\)/);
+    return match ? match[1] : timeString;
+  };
 
   if (loading) {
     return (
@@ -83,85 +99,75 @@ export default function SimpleContainer() {
             </Box>
             {shop && (
               <Grid container spacing={2}>
-                <Grid size={4}>
+                <Grid size={6}>
                   <div>ชื่อร้านค้า</div>
-                  <Item>{shop.name}</Item>
-                </Grid>
-                <Grid size={4}>
-                  <div>สาขา</div>
-                  <Item>{shop.branch || "-"}</Item>
-                </Grid>
-                <Grid size={4}>
-                  <div>อีเมล์</div>
-                  <Item>{shop.email || "-"}</Item>
+                  <Item>{shop.shopName}</Item>
                 </Grid>
                 <Grid size={6}>
-                  <div>เลขที่อยู่ / ข้อมูลสถานที่</div>
-                  <Item>{shop.shopLocation_th.district || "-"}</Item>
+                  <div>สาขา</div>
+                  <Item>{shop.branch}</Item>
                 </Grid>
-                <Grid size={3}>
+                <Grid size={6}>
+                  <div>อีเมล์</div>
+                  <Item>{shop.email}</Item>
+                </Grid>
+                <Grid size={8}>
+                  <div>เลขที่อยู่ / ข้อมูลสถานที่</div>
+                  <Item>
+                    {shop.shopkeeperLocation.district}{" "}
+                    {shop.shopkeeperLocation.postcode}{" "}
+                    {shop.shopkeeperLocation.province}{" "}
+                    {shop.shopkeeperLocation.subdistrict}
+                  </Item>
+                </Grid>
+                <Grid size={4}>
                   <div>จังหวัด</div>
-                  <Item>{shop.shopLocation_th.province || "-"}</Item>
+                  <Item>{shop.shopLocation_th.province}</Item>
                 </Grid>
                 <Grid size={3}>
                   <div>อำเภอ / เขต</div>
-                  <Item>{shop.shopLocation_th.district || "-"}</Item>
+                  <Item>{shop.shopLocation_th.district}</Item>
                 </Grid>
                 <Grid size={3}>
                   <div>ตำบล / แขวง</div>
-                  <Item>{shop.shopLocation_th.subdistrict || "-"}</Item>
+                  <Item>{shop.shopLocation_th.subdistrict}</Item>
                 </Grid>
                 <Grid size={2}>
                   <div>รหัสไปรษณีย์</div>
-                  <Item>{shop.shopLocation_th.postcode || "-"}</Item>
+                  <Item>{shop.shopLocation_th.postcode}</Item>
                 </Grid>
-                <Grid size={2}>
+                <Grid size={3}>
                   <div>เบอร์ติดต่อ</div>
-                  <Item>{shop.tel || "-"}</Item>
+                  <Item>{shop.tel}</Item>
                 </Grid>
-                <Grid size={2}>
+                <Grid size={3}>
                   <div>เวลาเปิด</div>
-                  <Item>{shop.openAt || "-"}</Item>
+                  <Item>{formatTime(shop.shopTime?.openAt)}</Item>
                 </Grid>
-                <Grid size={2}>
+                <Grid size={3}>
                   <div>เวลาปิด</div>
-                  <Item>{shop.closeAt || "-"}</Item>
+                  <Item>{formatTime(shop.shopTime?.closeAt)}</Item>
                 </Grid>
               </Grid>
             )}
-            <div className="flex justify-center items-center mt-6 space-x-4">
-              <label htmlFor="status-select" className="font-medium">
-                สถานะ :
-              </label>
-
-              <select
-                id="status-select"
-                value={status}
-                onChange={handleChange}
-                className="bg-white border border-black rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="normal">ใช้งานปกติ</option>
-                <option value="temporary">ระงับการใช้งานชั่วคราว</option>
-                <option value="permanent">ระงับการใช้งานถาวร</option>
-              </select>
-
+            <div className="flex justify-center items-center mt-6">
               <Button
+                component="label"
+                role={undefined}
                 variant="contained"
-                endIcon={<SendIcon />}
-                sx={{
-                  backgroundColor: "bg-blue-400",
-                  "&:hover": { backgroundColor: "bg-blue-800" },
-                  paddingX: "16px",
-                  paddingY: "8px",
-                  borderRadius: "8px",
-                  textTransform: "none",
-                }}
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
               >
-                ยืนยันการแก้ไข
+                รูปใบทะเบียนพาณิชย์
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={(event) => console.log(event.target.files)}
+                  multiple
+                />
               </Button>
             </div>
-
             <Divider sx={{ borderBottomWidth: "2px", margin: "2rem" }} />
+
             <Box>
               <div className="text-center text-3xl mt-4">
                 ข้อมูลของ คนดูแล / เจ้าของ
@@ -170,52 +176,76 @@ export default function SimpleContainer() {
             <Box sx={{}} className="mt-4">
               {shop && (
                 <Grid container spacing={2}>
-                  <Grid size={2}>
+                  <Grid size={1}>
                     <div>คำนำหน้า</div>
-                    <Item>{shop.prefix || "-"}</Item>
+                    <Item>-</Item>
                   </Grid>
                   <Grid size={3}>
                     <div>ชื่อ</div>
-                    <Item>{shop.username || "-"}</Item>
+                    <Item>{shop.shopkeeperData.name}</Item>
                   </Grid>
                   <Grid size={3}>
                     <div>นามสกุล</div>
-                    <Item>{shop.surname || "-"}</Item>
+                    <Item>{shop.shopkeeperData.surname}</Item>
                   </Grid>
                   <Grid size={1}>
                     <div>สัญชาติ</div>
-                    <Item>{shop.nationality || "-"}</Item>
+                    <Item>{shop.shopkeeperData.nationality}</Item>
                   </Grid>
                   <Grid size={1}>
                     <div>ศาสนา</div>
-                    <Item>{shop.religion || "-"}</Item>
+                    <Item>-</Item>
                   </Grid>
                   <Grid size={2}>
                     <div>วัน เดือน ปีเกิด</div>
-                    <Item>{shop.Dateofbirth || "-"}</Item>
+                    <Item>-</Item>
                   </Grid>
                   <Grid size={6}>
                     <div>เลขที่อยู่ / ข้อมูลสถานที่</div>
-                    <Item>{shop.shopkeeperLocationz || "-"}</Item>
+                    <Item>{shop.shopkeeperLocation.district}</Item>
                   </Grid>
                   <Grid size={2}>
                     <div>จังหวัด</div>
-                    <Item>{shop.shopkeeperLocation.province || "-"}</Item>
+                    <Item>{shop.shopkeeperLocation.province}</Item>
                   </Grid>
                   <Grid size={2}>
                     <div>อำเภอ / เขต</div>
-                    <Item>{shop.shopkeeperLocation.district || "-"}</Item>
+                    <Item>{shop.shopkeeperLocation.district}</Item>
                   </Grid>
                   <Grid size={2}>
                     <div>ตำบล / แขวง</div>
-                    <Item>{shop.shopkeeperLocation.subdistrict || "-"}</Item>
+                    <Item>{shop.shopkeeperLocation.subdistrict}</Item>
                   </Grid>
-                  <Grid size={2}>
+                  <Grid size={1}>
                     <div>รหัสไปรษณีย์</div>
-                    <Item>{shop.shopkeeperLocation.postcode || "-"}</Item>
+                    <Item>{shop.shopkeeperLocation.postcode}</Item>
                   </Grid>
                 </Grid>
               )}
+              <div className="flex justify-center items-center mt-6">
+                <Stack direction="row" spacing={2}>
+                  <Button
+                    variant="contained"
+                    endIcon={<DeleteIcon />}
+                    sx={{
+                      backgroundColor: "red",
+                      "&:hover": { backgroundColor: "darkred" },
+                    }}
+                  >
+                    ปฏิเสธการลงทะเบียน
+                  </Button>
+                  <Button
+                    variant="contained"
+                    endIcon={<SendIcon />}
+                    sx={{
+                      backgroundColor: "green",
+                      "&:hover": { backgroundColor: "darkgreen" },
+                    }}
+                  >
+                    ยืนยันการลงทะเบียน
+                  </Button>
+                </Stack>
+              </div>
             </Box>
           </Box>
         </Box>

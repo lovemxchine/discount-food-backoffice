@@ -2,29 +2,33 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UserListPage from "./pages/UserList/UserListPage";
 import StoresPage from "./pages/Stores/StoresPage";
-import ResponsiveDrawer from './components/SideBar';
-import UserListDetail from "./pages/UserList/UserListDetail";
-import Approval from "./pages/UserList/Approval";
-import StoresDetails from './pages/Stores/StoresDetails';
+import ResponsiveDrawer from "./components/SideBar";
+import StoresDetails from "./pages/Stores/StoresDetails";
 import ReportPage from "./pages/Report/ReportPage";
 import ReportDetails from "./pages/Report/ReportDetails";
+import ActiveShops from "./pages/UserList/ActiveShops";
+import ActiveApprove from "./pages/Approval/ActiveApproval";
+import RegisApprove from "./pages/Approval/RegisApproval";
+import RegisterShops from "./pages/UserList/RegistrationShops";
+import UsersCustomer from "./pages/UserList/Users";
 function App() {
   return (
     <Router>
       <ResponsiveDrawer>
         <Routes>
           <Route path="/users" element={<UserListPage />} />
-          <Route path="/users/detail" element={<UserListDetail />} />
-          <Route path="/users/approval" element={<Approval />} />
-          <Route path="/users/stores_details" element={<StoresDetails />} />
+          <Route path="/users/registrationshops" element={<RegisterShops />} />
+          <Route path="/users/activeshops" element={<ActiveShops />} />
+          <Route path="/users/systemusers" element={<UsersCustomer />} />
+          <Route path="/users/approval/registrationshops/:id" element={<RegisApprove />} />
+          <Route path="/users/approval/activeshops/:id" element={<ActiveApprove />} />
+          <Route path="/users/stores_details/:id" element={<StoresDetails />} />
           <Route path="/stores" element={<StoresPage />} />
           <Route path="/reports" element={<ReportPage />} />
           <Route path="/reports/details" element={<ReportDetails />} />
         </Routes>
       </ResponsiveDrawer>
     </Router>
-
-
   );
 }
 

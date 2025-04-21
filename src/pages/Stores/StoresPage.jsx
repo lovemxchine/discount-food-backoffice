@@ -17,13 +17,15 @@ function StoresPage() {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  const apiUrl = import.meta.env.VITE_API_URL;
-  console.log("test", import.meta.env.VITE_API_URL);
-  console.log(apiUrl)
+  // const apiUrl = import.meta.env.VITE_API_URL;
+  // console.log("test", import.meta.env.VITE_API_URL);
+  // console.log(apiUrl)
   const fetchAvailableShops = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://${apiUrl}/customer/availableShop/`);
+      // const res = await axios.get(`http://${apiUrl}/customer/availableShop/`);
+      const res = await axios.get("http://localhost:3000/customer/availableShop/");
+      console.log(res.data)
       setShops(res.data.data);
     } catch (error) {
       console.error("โหลดข้อมูลร้านค้าล้มเหลว:", error);
@@ -95,7 +97,7 @@ function StoresPage() {
                     variant="contained"
                     color="primary"
                     onClick={() =>
-                      navigate("/users/stores_details", { state: { shop } })
+                      navigate(`/users/stores_details/${shop.shopId}`, { state: { shop } })
                     }
                     sx={{ textTransform: "none", fontWeight: 500 }}
                   >

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,6 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,20 +32,27 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
-export default function CustomizedTables() {
+export default function RegisterShops() {
+
+
+  const [shops, setShops] = useState([]);
   const navigate = useNavigate();
+
+  const fetchRegistrationShops = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/admin/fetchRegisterShops");
+      console.log("Fetched Shops:", res.data);
+      setShops(res.data.data); 
+    } catch (error) {
+      console.error("Failed to fetch shops", error);
+    }
+  };
+    useEffect(() => {
+      fetchRegistrationShops();
+    }, []);
+  
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -50,19 +60,19 @@ export default function CustomizedTables() {
           <TableRow>
             <StyledTableCell>ชื่อร้านค้า</StyledTableCell>
             <StyledTableCell align="right">สาขา</StyledTableCell>
-            <StyledTableCell align="right">ใช้งานล่าสุด</StyledTableCell>
+            <StyledTableCell align="right">จังหวัด</StyledTableCell>
             <StyledTableCell align="right">เพิ่มเติม</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
+          {shops.map((shop, index) => (
+            <StyledTableRow key={index}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {shop.shopName}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell  onClick={() => navigate("/users/approval")} align="right">รายละเอียดเพิ่มเติม</StyledTableCell>
+              <StyledTableCell align="right">{shop.branch}</StyledTableCell>
+              <StyledTableCell align="right"> {shop.shopkeeperLocation?.province || '-'}</StyledTableCell>
+              <StyledTableCell  onClick={() => navigate(`/users/approval/registrationshops/${shop.id}`)} align="right">รายละเอียดเพิ่มเติม</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

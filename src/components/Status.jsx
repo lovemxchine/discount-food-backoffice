@@ -12,30 +12,37 @@ import PeopleIcon from "@mui/icons-material/People";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import { useNavigate } from "react-router-dom";
 
+
+
+
 const data = [
   {
     title: "ร้านค้ารอลงทะเบียน",
     count: 20,
     icon: <StorefrontIcon />,
     bgColor: "#2196F3",
+    route: "/users/registrationshops",
   },
   {
     title: "ร้านค้าในระบบ",
     count: 20,
     icon: <StorefrontIcon />,
     bgColor: "#4CAF50",
+    route: "/users/activeshops",
   },
   {
     title: "ผู้ใช้งานในระบบ",
     count: 20,
     icon: <PeopleIcon />,
     bgColor: "#4CAF50",
+    route: "/users/systemusers",
   },
   {
     title: "ร้านค้าระงับชั่วคราว",
     count: 20,
     icon: <StorefrontIcon />,
     bgColor: "#F44336",
+    route: "/users/suspendedshops",
   },
 ];
 
@@ -66,7 +73,7 @@ const StatusCard = () => {
                   size="small"
                   variant="outlined"
                   sx={{ mt: 1 }}
-                  onClick={() => navigate("/users/detail")}
+                  onClick={() => navigate(item.route)}
                 >
                   ดูรายละเอียด
                 </Button>

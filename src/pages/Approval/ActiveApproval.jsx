@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
+
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -8,8 +9,8 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import { Divider,CircularProgress } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Divider, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
@@ -24,35 +25,44 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
-export default function SimpleContainer() {
-  const [status, setStatus] = React.useState("");
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
-  const handleChange = (event) => {
-    setStatus(event.target.value);
-  };
-
+export default function ActiveApprove() {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const shop = shops.find((shop) => shop.shopId === id);
 
-  const fetchRegistrationShops = async () => {
+  const fetchActivesShops = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:3000/customer/availableShop"
-      );
-      console.log("Fetched Shops:", res.data);
+      const res = await axios.get("http://localhost:3000/customer/availableShop/");
       setShops(res.data.data);
     } catch (error) {
       console.error("Failed to fetch shops", error);
     } finally {
-      setLoading(false);
+      setLoading(false); 
     }
   };
+
   useEffect(() => {
-    fetchRegistrationShops();
+    fetchActivesShops();
   }, []);
 
+  // const formatTime = (timeString) => {
+  //   if (!timeString) return "-";
+  //   const match = timeString.match(/\(([^)]+)\)/);
+  //   return match ? match[1] : timeString;
+  // };
   if (loading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
@@ -60,8 +70,9 @@ export default function SimpleContainer() {
       </Box>
     );
   }
+
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
       <Container maxWidth="xl">
         <Box sx={{ bgcolor: "#D3D3D3", p: 2 }}>
@@ -83,23 +94,23 @@ export default function SimpleContainer() {
             </Box>
             {shop && (
               <Grid container spacing={2}>
-                <Grid size={4}>
+                <Grid size={6}>
                   <div>ชื่อร้านค้า</div>
                   <Item>{shop.name}</Item>
                 </Grid>
-                <Grid size={4}>
+                <Grid size={6}>
                   <div>สาขา</div>
                   <Item>{shop.branch || "-"}</Item>
                 </Grid>
-                <Grid size={4}>
-                  <div>อีเมล์</div>
-                  <Item>{shop.email || "-"}</Item>
-                </Grid>
                 <Grid size={6}>
-                  <div>เลขที่อยู่ / ข้อมูลสถานที่</div>
-                  <Item>{shop.shopLocation_th.district || "-"}</Item>
+                  <div>อีเมล์</div>
+                  <Item>{shop.email}</Item>
                 </Grid>
-                <Grid size={3}>
+                <Grid size={8}>
+                  <div>เลขที่อยู่ / ข้อมูลสถานที่</div>
+                  <Item>{shop.shopkeeperLocation.district || "-"}</Item>
+                </Grid>
+                <Grid size={4}>
                   <div>จังหวัด</div>
                   <Item>{shop.shopLocation_th.province || "-"}</Item>
                 </Grid>
@@ -115,53 +126,38 @@ export default function SimpleContainer() {
                   <div>รหัสไปรษณีย์</div>
                   <Item>{shop.shopLocation_th.postcode || "-"}</Item>
                 </Grid>
-                <Grid size={2}>
+                <Grid size={3}>
                   <div>เบอร์ติดต่อ</div>
-                  <Item>{shop.tel || "-"}</Item>
+                  <Item>{shop.tel}</Item>
                 </Grid>
-                <Grid size={2}>
+                <Grid size={3}>
                   <div>เวลาเปิด</div>
-                  <Item>{shop.openAt || "-"}</Item>
+                  <Item>{shop.openAt}</Item>
                 </Grid>
-                <Grid size={2}>
+                <Grid size={3}>
                   <div>เวลาปิด</div>
-                  <Item>{shop.closeAt || "-"}</Item>
+                  <Item>{shop.closeAt}</Item>
                 </Grid>
               </Grid>
             )}
-            <div className="flex justify-center items-center mt-6 space-x-4">
-              <label htmlFor="status-select" className="font-medium">
-                สถานะ :
-              </label>
-
-              <select
-                id="status-select"
-                value={status}
-                onChange={handleChange}
-                className="bg-white border border-black rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="normal">ใช้งานปกติ</option>
-                <option value="temporary">ระงับการใช้งานชั่วคราว</option>
-                <option value="permanent">ระงับการใช้งานถาวร</option>
-              </select>
-
+            <div className="flex justify-center items-center mt-6">
               <Button
+                component="label"
+                role={undefined}
                 variant="contained"
-                endIcon={<SendIcon />}
-                sx={{
-                  backgroundColor: "bg-blue-400",
-                  "&:hover": { backgroundColor: "bg-blue-800" },
-                  paddingX: "16px",
-                  paddingY: "8px",
-                  borderRadius: "8px",
-                  textTransform: "none",
-                }}
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
               >
-                ยืนยันการแก้ไข
+                รูปใบทะเบียนพาณิชย์
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={(event) => console.log(event.target.files)}
+                  multiple
+                />
               </Button>
             </div>
-
             <Divider sx={{ borderBottomWidth: "2px", margin: "2rem" }} />
+
             <Box>
               <div className="text-center text-3xl mt-4">
                 ข้อมูลของ คนดูแล / เจ้าของ
@@ -170,33 +166,33 @@ export default function SimpleContainer() {
             <Box sx={{}} className="mt-4">
               {shop && (
                 <Grid container spacing={2}>
-                  <Grid size={2}>
+                  <Grid size={1}>
                     <div>คำนำหน้า</div>
-                    <Item>{shop.prefix || "-"}</Item>
+                    <Item>-</Item>
                   </Grid>
                   <Grid size={3}>
                     <div>ชื่อ</div>
-                    <Item>{shop.username || "-"}</Item>
+                    <Item>{shop.shopkeeperData || "-"}</Item>
                   </Grid>
                   <Grid size={3}>
                     <div>นามสกุล</div>
-                    <Item>{shop.surname || "-"}</Item>
+                    <Item>{shop.shopkeeperData || "-"}</Item>
                   </Grid>
                   <Grid size={1}>
                     <div>สัญชาติ</div>
-                    <Item>{shop.nationality || "-"}</Item>
+                    <Item>{shop.shopkeeperData || "-"}</Item>
                   </Grid>
                   <Grid size={1}>
                     <div>ศาสนา</div>
-                    <Item>{shop.religion || "-"}</Item>
+                    <Item>-</Item>
                   </Grid>
                   <Grid size={2}>
                     <div>วัน เดือน ปีเกิด</div>
-                    <Item>{shop.Dateofbirth || "-"}</Item>
+                    <Item>-</Item>
                   </Grid>
                   <Grid size={6}>
                     <div>เลขที่อยู่ / ข้อมูลสถานที่</div>
-                    <Item>{shop.shopkeeperLocationz || "-"}</Item>
+                    <Item>{shop.shopkeeperLocation.district || "-"}</Item>
                   </Grid>
                   <Grid size={2}>
                     <div>จังหวัด</div>
@@ -210,7 +206,7 @@ export default function SimpleContainer() {
                     <div>ตำบล / แขวง</div>
                     <Item>{shop.shopkeeperLocation.subdistrict || "-"}</Item>
                   </Grid>
-                  <Grid size={2}>
+                  <Grid size={1}>
                     <div>รหัสไปรษณีย์</div>
                     <Item>{shop.shopkeeperLocation.postcode || "-"}</Item>
                   </Grid>
@@ -220,6 +216,6 @@ export default function SimpleContainer() {
           </Box>
         </Box>
       </Container>
-    </React.Fragment>
+    </>
   );
 }
