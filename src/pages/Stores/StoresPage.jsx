@@ -11,15 +11,19 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
 function StoresPage() {
   const navigate = useNavigate();
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  
+  const apiUrl = import.meta.env.VITE_API_URL;
+  console.log("test", import.meta.env.VITE_API_URL);
+  console.log(apiUrl)
   const fetchAvailableShops = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:3000/customer/availableShop/");
+      const res = await axios.get(`http://${apiUrl}/customer/availableShop/`);
       setShops(res.data.data);
     } catch (error) {
       console.error("โหลดข้อมูลร้านค้าล้มเหลว:", error);
