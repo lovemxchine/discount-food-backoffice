@@ -11,12 +11,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
 function StoresPage() {
   const navigate = useNavigate();
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   // const apiUrl = import.meta.env.VITE_API_URL;
   // console.log("test", import.meta.env.VITE_API_URL);
   // console.log(apiUrl)
@@ -24,8 +23,8 @@ function StoresPage() {
     setLoading(true);
     try {
       // const res = await axios.get(`http://${apiUrl}/customer/availableShop/`);
-      const res = await axios.get("http://localhost:3000/customer/availableShop/");
-      console.log(res.data)
+      const res = await axios.get("http://localhost:3000/admin/fetchShop/");
+      console.log(res.data);
       setShops(res.data.data);
     } catch (error) {
       console.error("โหลดข้อมูลร้านค้าล้มเหลว:", error);
@@ -37,6 +36,12 @@ function StoresPage() {
   useEffect(() => {
     fetchAvailableShops();
   }, []);
+
+  const statusLabel = {
+    active: "ใช้งานปกติ",
+    inactive: "ระงับชั่วคราว",
+    disable: "ระงับถาวร",
+  };
 
   return (
     <Box sx={{ flexGrow: 1, p: 4 }}>
@@ -89,6 +94,13 @@ function StoresPage() {
                   >
                     เวลาเปิด-ปิด: {shop.openAt || "-"} - {shop.closeAt || "-"}
                   </Typography>
+                  
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: 400, color: "text.secondary" }}
+                  >
+                    สถานะ: {statusLabel[shop.status] ?? "-"}
+                  </Typography>
                 </Box>
 
                 <Box display="flex" justifyContent="flex-end" mt={3}>
@@ -97,7 +109,9 @@ function StoresPage() {
                     variant="contained"
                     color="primary"
                     onClick={() =>
-                      navigate(`/users/stores_details/${shop.shopId}`, { state: { shop } })
+                      navigate(`/users/stores_details/${shop.id}`, {
+                        state: { shop },
+                      })
                     }
                     sx={{ textTransform: "none", fontWeight: 500 }}
                   >

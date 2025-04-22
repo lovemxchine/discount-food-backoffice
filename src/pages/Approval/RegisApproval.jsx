@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -10,12 +9,18 @@ import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Divider,CircularProgress } from "@mui/material";
+import { Divider, CircularProgress } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SendIcon from "@mui/icons-material/Send";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
   ...theme.typography.body2,
@@ -42,9 +47,32 @@ const VisuallyHiddenInput = styled("input")({
 export default function RegisApprove() {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const { id } = useParams();
   const shop = shops.find((shop) => shop.id === id);
+  const [openImage, setOpenImage] = useState(false);
+  const sampleImageUrl = shop?.imgUrl?.certificateUrl;
+
+  const handleConfirmation = async (status) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/admin/confirmationShop",
+        {
+          uid: id,
+          status: status,
+        }
+      );
+
+      if (res.data.status === "success") {
+        alert("ดำเนินการสำเร็จ");
+        fetchRegistrationShops();
+      } else {
+        alert("ดำเนินการไม่สำเร็จ");
+      }
+    } catch (error) {
+      console.error("Error during confirmation:", error);
+      alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
+    }
+  };
 
   const fetchRegistrationShops = async () => {
     try {
@@ -59,6 +87,7 @@ export default function RegisApprove() {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchRegistrationShops();
   }, []);
@@ -152,18 +181,11 @@ export default function RegisApprove() {
             )}
             <div className="flex justify-center items-center mt-6">
               <Button
-                component="label"
-                role={undefined}
                 variant="contained"
-                tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
+                onClick={() => setOpenImage(true)}
               >
-                รูปใบทะเบียนพาณิชย์
-                <VisuallyHiddenInput
-                  type="file"
-                  onChange={(event) => console.log(event.target.files)}
-                  multiple
-                />
+                ดูรูปใบทะเบียนพาณิชย์
               </Button>
             </div>
             <Divider sx={{ borderBottomWidth: "2px", margin: "2rem" }} />
@@ -231,6 +253,7 @@ export default function RegisApprove() {
                       backgroundColor: "red",
                       "&:hover": { backgroundColor: "darkred" },
                     }}
+                    onClick={() => handleConfirmation("REJECT")}
                   >
                     ปฏิเสธการลงทะเบียน
                   </Button>
@@ -241,6 +264,7 @@ export default function RegisApprove() {
                       backgroundColor: "green",
                       "&:hover": { backgroundColor: "darkgreen" },
                     }}
+                    onClick={() => handleConfirmation("APPROVE")}
                   >
                     ยืนยันการลงทะเบียน
                   </Button>
@@ -250,6 +274,35 @@ export default function RegisApprove() {
           </Box>
         </Box>
       </Container>
+
+      <Dialog
+        open={openImage}
+        onClose={() => setOpenImage(false)}
+        maxWidth="md"
+      >
+        <DialogTitle sx={{ m: 0, p: 2 }}>
+          รูปใบทะเบียนพาณิชย์
+          <IconButton
+            aria-label="close"
+            onClick={() => setOpenImage(false)}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent dividers>
+          <img
+            src={sampleImageUrl}
+            alt="business-license"
+            style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+          />
+        </DialogContent>
+      </Dialog>
     </React.Fragment>
   );
 }

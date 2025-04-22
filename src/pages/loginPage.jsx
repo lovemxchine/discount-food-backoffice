@@ -1,17 +1,30 @@
 import React from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
   Card,
   CardContent,
-  Checkbox,
   TextField,
 } from "@mui/material";
-import "../App.css";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+
 function LoginPage() {
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const [error, setError] = useState("");
+
+
+
   return (
     <div>
-      <h1>Discount Food Application Management</h1>
+      <h1 className="text-center mt-40">Discount Food Application Management</h1>
       <form>
         <Card sx={{ maxWidth: 500, mx: "auto", mt: "2rem" }}>
           <CardContent>

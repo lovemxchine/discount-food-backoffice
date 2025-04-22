@@ -11,8 +11,12 @@ import ActiveApprove from "./pages/Approval/ActiveApproval";
 import RegisApprove from "./pages/Approval/RegisApproval";
 import RegisterShops from "./pages/UserList/RegistrationShops";
 import UsersCustomer from "./pages/UserList/Users";
+import LoginPage from "./pages/loginPage";
+import SuspendedShops from "./pages/UserList/StoreSuspended";
+import InactiveApprove from "./pages/Approval/InactiveAprroval";
 function App() {
   return (
+    // <LoginPage/>
     <Router>
       <ResponsiveDrawer>
         <Routes>
@@ -20,8 +24,10 @@ function App() {
           <Route path="/users/registrationshops" element={<RegisterShops />} />
           <Route path="/users/activeshops" element={<ActiveShops />} />
           <Route path="/users/systemusers" element={<UsersCustomer />} />
+          <Route path="/users/suspendedshops" element={<SuspendedShops />} />
           <Route path="/users/approval/registrationshops/:id" element={<RegisApprove />} />
           <Route path="/users/approval/activeshops/:id" element={<ActiveApprove />} />
+          <Route path="/users/approval/inactiveshops/:id" element={<InactiveApprove />} />
           <Route path="/users/stores_details/:id" element={<StoresDetails />} />
           <Route path="/stores" element={<StoresPage />} />
           <Route path="/reports" element={<ReportPage />} />

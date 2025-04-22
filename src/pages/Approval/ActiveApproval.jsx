@@ -13,6 +13,11 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Divider, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -42,15 +47,19 @@ export default function ActiveApprove() {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const shop = shops.find((shop) => shop.shopId === id);
+  const [openImage, setOpenImage] = useState(false);
+  const sampleImageUrl = shop?.imgUrl?.certificateUrl;
 
   const fetchActivesShops = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/customer/availableShop/");
+      const res = await axios.get(
+        "http://localhost:3000/customer/availableShop/"
+      );
       setShops(res.data.data);
     } catch (error) {
       console.error("Failed to fetch shops", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -142,18 +151,11 @@ export default function ActiveApprove() {
             )}
             <div className="flex justify-center items-center mt-6">
               <Button
-                component="label"
-                role={undefined}
                 variant="contained"
-                tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
+                onClick={() => setOpenImage(true)}
               >
-                รูปใบทะเบียนพาณิชย์
-                <VisuallyHiddenInput
-                  type="file"
-                  onChange={(event) => console.log(event.target.files)}
-                  multiple
-                />
+                ดูรูปใบทะเบียนพาณิชย์
               </Button>
             </div>
             <Divider sx={{ borderBottomWidth: "2px", margin: "2rem" }} />
@@ -216,6 +218,35 @@ export default function ActiveApprove() {
           </Box>
         </Box>
       </Container>
+      
+      <Dialog
+        open={openImage}
+        onClose={() => setOpenImage(false)}
+        maxWidth="md"
+      >
+        <DialogTitle sx={{ m: 0, p: 2 }}>
+          รูปใบทะเบียนพาณิชย์
+          <IconButton
+            aria-label="close"
+            onClick={() => setOpenImage(false)}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent dividers>
+          <img
+            src={sampleImageUrl}
+            alt="business-license"
+            style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+          />
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

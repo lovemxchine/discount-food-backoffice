@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -18,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
-export default function SimpleContainer() {
+export default function SimpleContainer({ report }) {
   return (
     <React.Fragment>
       <CssBaseline />
@@ -35,19 +36,19 @@ export default function SimpleContainer() {
                 <div className="text-center mt-4 font-bold text-xl">
                   หัวข้อเรื่อง
                 </div>
-                <Item>size=12</Item>
+                <Item>{report.title}</Item>
               </Grid>
               <Grid size={6}>
                 <div className="text-center mt-4 font-bold">ชื่อผู้รายงาน</div>
-                <Item>size=6</Item>
+                <Item>{report.sender}</Item>
               </Grid>
               <Grid size={6}>
                 <div className="text-center mt-4 font-bold">ชื่อร้านค้า</div>
-                <Item>size=6</Item>
+                <Item>{report.shopName}</Item>
               </Grid>
               <Grid size={12}>
                 <div className="text-center mt-4 font-bold">เนื้อหา</div>
-                <Item>size=12</Item>
+                <Item>{report.description}</Item>
               </Grid>
             </Grid>
           </Box>
