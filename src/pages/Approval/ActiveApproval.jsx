@@ -53,7 +53,7 @@ export default function ActiveApprove() {
   const fetchActivesShops = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/customer/availableShop/"
+        `http://${import.meta.env.VITE_API_URL}:3000/customer/availableShop/`
       );
       setShops(res.data.data);
     } catch (error) {
@@ -218,7 +218,7 @@ export default function ActiveApprove() {
           </Box>
         </Box>
       </Container>
-      
+
       <Dialog
         open={openImage}
         onClose={() => setOpenImage(false)}

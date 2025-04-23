@@ -52,7 +52,9 @@ export default function InactiveApprove() {
 
   const fetchActivesShops = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/admin/fetchShop");
+      const res = await axios.get(
+        `http://${import.meta.env.VITE_API_URL}:3000/admin/fetchShop`
+      );
       const filtered = res.data.data.filter(
         (shop) => shop.status === "inactive"
       );

@@ -55,7 +55,7 @@ export default function RegisApprove() {
   const handleConfirmation = async (status) => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/admin/confirmationShop",
+        `http://${import.meta.env.VITE_API_URL}:3000/admin/confirmationShop`,
         {
           uid: id,
           status: status,
@@ -77,7 +77,7 @@ export default function RegisApprove() {
   const fetchRegistrationShops = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/admin/fetchRegisterShops/"
+        `http://${import.meta.env.VITE_API_URL}:3000/admin/fetchRegisterShops/`
       );
       console.log("Fetched Shops:", res.data);
       setShops(res.data.data);

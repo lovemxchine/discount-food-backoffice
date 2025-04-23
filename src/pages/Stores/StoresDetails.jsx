@@ -38,7 +38,9 @@ export default function SimpleContainer() {
 
   const fetchRegistrationShops = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/admin/fetchShop");
+      const res = await axios.get(
+        `http://${import.meta.env.VITE_API_URL}:3000/admin/fetchShop`
+      );
       console.log("Fetched Shops:", res.data);
       setShops(res.data.data);
     } catch (error) {
@@ -61,10 +63,13 @@ export default function SimpleContainer() {
 
   const handleUpdateStatus = async () => {
     try {
-      await axios.post("http://localhost:3000/admin/updateStatus", {
-        uid: id,
-        status,
-      });
+      await axios.post(
+        `http://${import.meta.env.VITE_API_URL}:3000/admin/updateStatus`,
+        {
+          uid: id,
+          status,
+        }
+      );
       setSnackMsg("อัปเดตสถานะสำเร็จ");
       setOpenSnack(true);
       await fetchRegistrationShops();

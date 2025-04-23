@@ -59,7 +59,9 @@ export default function CustomizedTables() {
   const fetchAvailableShops = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:3000/admin/reportShop/");
+      const res = await axios.get(
+        `http://${import.meta.env.VITE_API_URL}:3000/admin/reportShop/`
+      );
       console.log(res.data);
       setShops(res.data.data);
     } catch (error) {

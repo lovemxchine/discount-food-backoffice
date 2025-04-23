@@ -20,14 +20,24 @@ function App() {
     <Router>
       <ResponsiveDrawer>
         <Routes>
+          <Route path="/" element={<UserListPage />} />
           <Route path="/users" element={<UserListPage />} />
           <Route path="/users/registrationshops" element={<RegisterShops />} />
           <Route path="/users/activeshops" element={<ActiveShops />} />
           <Route path="/users/systemusers" element={<UsersCustomer />} />
           <Route path="/users/suspendedshops" element={<SuspendedShops />} />
-          <Route path="/users/approval/registrationshops/:id" element={<RegisApprove />} />
-          <Route path="/users/approval/activeshops/:id" element={<ActiveApprove />} />
-          <Route path="/users/approval/inactiveshops/:id" element={<InactiveApprove />} />
+          <Route
+            path="/users/approval/registrationshops/:id"
+            element={<RegisApprove />}
+          />
+          <Route
+            path="/users/approval/activeshops/:id"
+            element={<ActiveApprove />}
+          />
+          <Route
+            path="/users/approval/inactiveshops/:id"
+            element={<InactiveApprove />}
+          />
           <Route path="/users/stores_details/:id" element={<StoresDetails />} />
           <Route path="/stores" element={<StoresPage />} />
           <Route path="/reports" element={<ReportPage />} />
