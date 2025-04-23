@@ -36,7 +36,9 @@ export default function UsersCustomer() {
   console.log("api ", import.meta.env.VITE_API_URL);
   const fetchUsers = async () => {
     try {
-      const res = await axios.get(`http://3.27.248.183:3000/admin/customer`);
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}:3000/admin/customer`
+      );
       setUsers(res.data.data);
     } catch (error) {
       console.error("Failed to fetch users", error);
