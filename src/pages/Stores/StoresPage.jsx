@@ -22,9 +22,9 @@ function StoresPage() {
   const fetchAvailableShops = async () => {
     setLoading(true);
     try {
-      // const res = await axios.get(`http://${apiUrl}/customer/availableShop/`);
+      // const res = await axios.get(`${apiUrl}/customer/availableShop/`);
       const res = await axios.get(
-        `http://${import.meta.env.VITE_API_URL}:3000/admin/fetchShop/`
+        `${import.meta.env.VITE_API_URL}:3000/admin/fetchShop/`
       );
       console.log(res.data);
       setShops(res.data.data);

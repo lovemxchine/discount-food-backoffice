@@ -24,7 +24,7 @@ const StatusCard = () => {
   const fetchRegistrationShops = async () => {
     try {
       const res = await axios.get(
-        `http://${import.meta.env.VITE_API_URL}:3000/admin/fetchRegisterShops/`
+        `${import.meta.env.VITE_API_URL}:3000/admin/fetchRegisterShops/`
       );
       console.log("Regis Shops:", res.data);
       setShops(res.data.data);
@@ -36,7 +36,7 @@ const StatusCard = () => {
   const fetchActivesShops = async () => {
     try {
       const res = await axios.get(
-        `http://${import.meta.env.VITE_API_URL}:3000/customer/availableShop/`
+        `${import.meta.env.VITE_API_URL}:3000/customer/availableShop/`
       );
       console.log("Active Shops:", res.data);
       setActive(res.data.data);
@@ -48,7 +48,7 @@ const StatusCard = () => {
   const fetchUsers = async () => {
     try {
       const res = await axios.get(
-        `http://${import.meta.env.VITE_API_URL}:3000/admin/customer`
+        `${import.meta.env.VITE_API_URL}:3000/admin/customer`
       );
       console.log("Users:", res.data);
       setUsers(res.data.data);
@@ -60,7 +60,7 @@ const StatusCard = () => {
   const fetchInactive = async () => {
     try {
       const res = await axios.get(
-        `http://${import.meta.env.VITE_API_URL}:3000/admin/fetchShop`
+        `${import.meta.env.VITE_API_URL}:3000/admin/fetchShop`
       );
       const filtered = res.data.data.filter(
         (shop) => shop.status === "inactive"

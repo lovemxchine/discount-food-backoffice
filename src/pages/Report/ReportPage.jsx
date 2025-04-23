@@ -60,7 +60,7 @@ export default function CustomizedTables() {
     setLoading(true);
     try {
       const res = await axios.get(
-        `http://${import.meta.env.VITE_API_URL}:3000/admin/reportShop/`
+        `${import.meta.env.VITE_API_URL}:3000/admin/reportShop/`
       );
       console.log(res.data);
       setShops(res.data.data);

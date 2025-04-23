@@ -39,7 +39,7 @@ export default function SuspendedShops() {
   const fetchInactiveShops = async () => {
     try {
       const res = await axios.get(
-        `http://${import.meta.env.VITE_API_URL}:3000/admin/fetchShop`
+        `${import.meta.env.VITE_API_URL}:3000/admin/fetchShop`
       );
       const filtered = res.data.data.filter(
         (shop) => shop.status === "inactive"

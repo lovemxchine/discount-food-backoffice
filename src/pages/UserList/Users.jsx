@@ -33,11 +33,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function UsersCustomer() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  console.log("api ", import.meta.env.VITE_API_URL);
   const fetchUsers = async () => {
     try {
       const res = await axios.get(
-        `http://${import.meta.env.VITE_API_URL}:3000/admin/customer`
+        `${import.meta.env.VITE_API_URL}:3000/admin/customer`
       );
       setUsers(res.data.data);
     } catch (error) {
