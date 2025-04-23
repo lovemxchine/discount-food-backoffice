@@ -38,7 +38,7 @@ export default function RegisterShops() {
   const fetchRegistrationShops = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}:3000/admin/fetchRegisterShops`
+        `${import.meta.env.VITE_API_URL}/admin/fetchRegisterShops`
       );
       console.log("Fetched Shops:", res.data);
       setShops(res.data.data);

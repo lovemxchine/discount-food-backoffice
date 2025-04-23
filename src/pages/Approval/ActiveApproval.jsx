@@ -53,7 +53,7 @@ export default function ActiveApprove() {
   const fetchActivesShops = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}:3000/customer/availableShop/`
+        `${import.meta.env.VITE_API_URL}/customer/availableShop/`
       );
       setShops(res.data.data);
     } catch (error) {

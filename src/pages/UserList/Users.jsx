@@ -37,7 +37,7 @@ export default function UsersCustomer() {
   const fetchUsers = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}:3000/admin/customer`
+        `${import.meta.env.VITE_API_URL}/admin/customer`
       );
       setUsers(res.data.data);
     } catch (error) {
