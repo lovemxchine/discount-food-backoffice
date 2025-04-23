@@ -174,15 +174,15 @@ export default function ActiveApprove() {
                   </Grid>
                   <Grid size={3}>
                     <div>ชื่อ</div>
-                    <Item>{shop.shopkeeperData || "-"}</Item>
+                    <Item>{shop.shopkeeperData.name || "-"}</Item>
                   </Grid>
                   <Grid size={3}>
                     <div>นามสกุล</div>
-                    <Item>{shop.shopkeeperData || "-"}</Item>
+                    <Item>{shop.shopkeeperData.surname || "-"}</Item>
                   </Grid>
                   <Grid size={1}>
                     <div>สัญชาติ</div>
-                    <Item>{shop.shopkeeperData || "-"}</Item>
+                    <Item>{shop.shopkeeperData.nationality || "-"}</Item>
                   </Grid>
                   <Grid size={1}>
                     <div>ศาสนา</div>
