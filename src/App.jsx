@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom"; // Add Navigate here
 import UserListPage from "./pages/UserList/UserListPage";
 import StoresPage from "./pages/Stores/StoresPage";
 import ResponsiveDrawer from "./components/SideBar";
@@ -14,13 +19,13 @@ import UsersCustomer from "./pages/UserList/Users";
 import LoginPage from "./pages/loginPage";
 import SuspendedShops from "./pages/UserList/StoreSuspended";
 import InactiveApprove from "./pages/Approval/InactiveAprroval";
+
 function App() {
   return (
-    // <LoginPage/>
     <Router>
       <ResponsiveDrawer>
         <Routes>
-          <Route path="/" element={<UserListPage />} />
+          <Route path="/" element={<Navigate to="/users" replace />} />
           <Route path="/users" element={<UserListPage />} />
           <Route path="/users/registrationshops" element={<RegisterShops />} />
           <Route path="/users/activeshops" element={<ActiveShops />} />
@@ -42,6 +47,9 @@ function App() {
           <Route path="/stores" element={<StoresPage />} />
           <Route path="/reports" element={<ReportPage />} />
           <Route path="/reports/details" element={<ReportDetails />} />
+
+          {/* Catch-all route to redirect to /users */}
+          <Route path="*" element={<Navigate to="/users" replace />} />
         </Routes>
       </ResponsiveDrawer>
     </Router>
