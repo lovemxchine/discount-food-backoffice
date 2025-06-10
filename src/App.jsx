@@ -21,37 +21,53 @@ import SuspendedShops from "./pages/UserList/StoreSuspended";
 import InactiveApprove from "./pages/Approval/InactiveAprroval";
 
 function App() {
+  // Check for cookies (simple check for any cookies present)
+  const hasCookies = document.cookie && document.cookie !== "";
+
   return (
     <Router>
-      <ResponsiveDrawer>
+      {hasCookies ? (
+        <ResponsiveDrawer>
+          <Routes>
+            <Route path="/" element={<Navigate to="/users" replace />} />
+            <Route path="/users" element={<UserListPage />} />
+            <Route
+              path="/users/registrationshops"
+              element={<RegisterShops />}
+            />
+            <Route path="/users/activeshops" element={<ActiveShops />} />
+            <Route path="/users/systemusers" element={<UsersCustomer />} />
+            <Route path="/users/suspendedshops" element={<SuspendedShops />} />
+            <Route
+              path="/users/approval/registrationshops/:id"
+              element={<RegisApprove />}
+            />
+            <Route
+              path="/users/approval/activeshops/:id"
+              element={<ActiveApprove />}
+            />
+            <Route
+              path="/users/approval/inactiveshops/:id"
+              element={<InactiveApprove />}
+            />
+            <Route
+              path="/users/stores_details/:id"
+              element={<StoresDetails />}
+            />
+            <Route path="/stores" element={<StoresPage />} />
+            <Route path="/reports" element={<ReportPage />} />
+            <Route path="/reports/details" element={<ReportDetails />} />
+            {/* Catch-all route to redirect to /users */}
+            <Route path="*" element={<Navigate to="/users" replace />} />
+          </Routes>
+        </ResponsiveDrawer>
+      ) : (
         <Routes>
-          <Route path="/" element={<Navigate to="/users" replace />} />
-          <Route path="/users" element={<UserListPage />} />
-          <Route path="/users/registrationshops" element={<RegisterShops />} />
-          <Route path="/users/activeshops" element={<ActiveShops />} />
-          <Route path="/users/systemusers" element={<UsersCustomer />} />
-          <Route path="/users/suspendedshops" element={<SuspendedShops />} />
-          <Route
-            path="/users/approval/registrationshops/:id"
-            element={<RegisApprove />}
-          />
-          <Route
-            path="/users/approval/activeshops/:id"
-            element={<ActiveApprove />}
-          />
-          <Route
-            path="/users/approval/inactiveshops/:id"
-            element={<InactiveApprove />}
-          />
-          <Route path="/users/stores_details/:id" element={<StoresDetails />} />
-          <Route path="/stores" element={<StoresPage />} />
-          <Route path="/reports" element={<ReportPage />} />
-          <Route path="/reports/details" element={<ReportDetails />} />
-
-          {/* Catch-all route to redirect to /users */}
-          <Route path="*" element={<Navigate to="/users" replace />} />
+          <Route path="/login" element={<LoginPage />} />
+          {/* Redirect all other routes to login */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
-      </ResponsiveDrawer>
+      )}
     </Router>
   );
 }

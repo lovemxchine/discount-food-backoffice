@@ -43,7 +43,7 @@ function ResponsiveDrawer(props) {
   };
 
   const drawer = (
-    <div>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <Toolbar />
       <Box sx={{ px: 2, mb: 1 }}>
         <Typography variant="h6">Discount Food App</Typography>
@@ -78,36 +78,61 @@ function ResponsiveDrawer(props) {
           </Typography>
         </Box>
       </Box>
-
       <Divider />
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/users">
-            <ListItemIcon>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="รายการผู้ใช้" />
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/stores">
-            <ListItemIcon>
-              <StorefrontIcon />
-            </ListItemIcon>
-            <ListItemText primary="ร้านค้าทั้งหมด" />
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/reports">
-            <ListItemIcon>
-              <AssessmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="กล่องรายงาน" />
-          </ListItemButton>
-        </ListItem>
-      </List>
+      <Box sx={{ flexGrow: 1 }}>
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/users">
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="รายการผู้ใช้" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/stores">
+              <ListItemIcon>
+                <StorefrontIcon />
+              </ListItemIcon>
+              <ListItemText primary="ร้านค้าทั้งหมด" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/reports">
+              <ListItemIcon>
+                <AssessmentIcon />
+              </ListItemIcon>
+              <ListItemText primary="กล่องรายงาน" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Box>
+      <Box>
+        <Divider />
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/"
+              onClick={() => {
+                localStorage.removeItem("token");
+                document.cookie.split(";").forEach((c) => {
+                  document.cookie = c
+                    .replace(/^ +/, "")
+                    .replace(
+                      /=.*/,
+                      "=;expires=" + new Date(0).toUTCString() + ";path=/"
+                    );
+                });
+                window.location.reload();
+              }}
+            >
+              <ListItemIcon />
+              <ListItemText primary="ออกจากระบบ" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Box>
     </div>
   );
 
@@ -197,7 +222,5 @@ ResponsiveDrawer.propTypes = {
   window: PropTypes.func,
   children: PropTypes.node,
 };
-
-
 
 export default ResponsiveDrawer;

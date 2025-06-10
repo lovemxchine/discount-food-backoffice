@@ -168,10 +168,6 @@ export default function ActiveApprove() {
             <Box sx={{}} className="mt-4">
               {shop && (
                 <Grid container spacing={2}>
-                  <Grid size={1}>
-                    <div>คำนำหน้า</div>
-                    <Item>-</Item>
-                  </Grid>
                   <Grid size={3}>
                     <div>ชื่อ</div>
                     <Item>{shop.shopkeeperData.name || "-"}</Item>
@@ -180,11 +176,11 @@ export default function ActiveApprove() {
                     <div>นามสกุล</div>
                     <Item>{shop.shopkeeperData.surname || "-"}</Item>
                   </Grid>
-                  <Grid size={1}>
+                  <Grid size={2}>
                     <div>สัญชาติ</div>
                     <Item>{shop.shopkeeperData.nationality || "-"}</Item>
                   </Grid>
-                  <Grid size={1}>
+                  <Grid size={2}>
                     <div>ศาสนา</div>
                     <Item>-</Item>
                   </Grid>

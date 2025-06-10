@@ -37,7 +37,9 @@ export default function RegisterShops() {
 
   const fetchRegistrationShops = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/admin/fetchRegisterShops");
+      const res = await axios.get(
+        "http://localhost:3000/admin/fetchRegisterShops"
+      );
       console.log("Fetched Shops:", res.data);
       setShops(res.data.data);
     } catch (error) {
@@ -63,11 +65,24 @@ export default function RegisterShops() {
           {shops.map((shop, index) => (
             <StyledTableRow key={index}>
               <StyledTableCell component="th" scope="row">
-                {shop.shopName}
+                {shop.shopName || shop.name || "-"}
               </StyledTableCell>
-              <StyledTableCell align="right">{shop.branch}</StyledTableCell>
-              <StyledTableCell align="right"> {shop.shopkeeperLocation?.province || '-'}</StyledTableCell>
-              <StyledTableCell  onClick={() => navigate(`/users/approval/registrationshops/${shop.id}`)} align="right">รายละเอียดเพิ่มเติม</StyledTableCell>
+              <StyledTableCell align="right">
+                {shop?.branch || "-"}
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                {" "}
+                {shop.shopkeeperLocation?.province || "-"}
+              </StyledTableCell>
+              <StyledTableCell
+                onClick={() =>
+                  navigate(`/users/approval/registrationshops/${shop.id}`)
+                }
+                align="right"
+                className="cursor-pointer hover:underline "
+              >
+                รายละเอียดเพิ่มเติม
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
@@ -75,4 +90,3 @@ export default function RegisterShops() {
     </TableContainer>
   );
 }
-

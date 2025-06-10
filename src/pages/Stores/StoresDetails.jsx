@@ -194,33 +194,22 @@ export default function SimpleContainer() {
             <Box sx={{}} className="mt-4">
               {shop && (
                 <Grid container spacing={2}>
-                  <Grid size={2}>
-                    <div>คำนำหน้า</div>
-                    <Item>{shop.prefix || "-"}</Item>
-                  </Grid>
-                  <Grid size={3}>
+                  <Grid size={4}>
                     <div>ชื่อ</div>
-                    <Item>{shop.username || "-"}</Item>
+                    <Item>{shop.shopkeeperData.name || "-"}</Item>
                   </Grid>
-                  <Grid size={3}>
+                  <Grid size={4}>
                     <div>นามสกุล</div>
-                    <Item>{shop.surname || "-"}</Item>
+                    <Item>{shop.shopkeeperData.surname || "-"}</Item>
                   </Grid>
-                  <Grid size={1}>
+                  <Grid size={4}>
                     <div>สัญชาติ</div>
-                    <Item>{shop.nationality || "-"}</Item>
+                    <Item>{shop.shopkeeperData.nationality || "-"}</Item>
                   </Grid>
-                  <Grid size={1}>
-                    <div>ศาสนา</div>
-                    <Item>{shop.religion || "-"}</Item>
-                  </Grid>
-                  <Grid size={2}>
-                    <div>วัน เดือน ปีเกิด</div>
-                    <Item>{shop.Dateofbirth || "-"}</Item>
-                  </Grid>
+
                   <Grid size={6}>
                     <div>เลขที่อยู่ / ข้อมูลสถานที่</div>
-                    <Item>{shop.shopkeeperLocationz || "-"}</Item>
+                    <Item>{shop.shopLocation_th.place || "-"}</Item>
                   </Grid>
                   <Grid size={2}>
                     <div>จังหวัด</div>

@@ -92,7 +92,6 @@ export default function RegisApprove() {
     fetchRegistrationShops();
   }, []);
 
-
   if (loading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
@@ -100,6 +99,12 @@ export default function RegisApprove() {
       </Box>
     );
   }
+  const formatTime = (timeString) => {
+    if (!timeString) return "-";
+    const match = timeString.match(/\(([^)]+)\)/);
+    return match ? match[1] : timeString;
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -125,7 +130,7 @@ export default function RegisApprove() {
               <Grid container spacing={2}>
                 <Grid size={6}>
                   <div>ชื่อร้านค้า</div>
-                  <Item>{shop.name}</Item>
+                  <Item>{shop?.shopName || shop.name}</Item>
                 </Grid>
                 <Grid size={6}>
                   <div>สาขา</div>
@@ -166,11 +171,15 @@ export default function RegisApprove() {
                 </Grid>
                 <Grid size={3}>
                   <div>เวลาเปิด</div>
-                  <Item>{(shop.openAt)}</Item>
+                  <Item>
+                    {formatTime(shop.shopTime?.openAt || shop.openAt)}
+                  </Item>
                 </Grid>
                 <Grid size={3}>
                   <div>เวลาปิด</div>
-                  <Item>{(shop.closeAt)}</Item>
+                  <Item>
+                    {formatTime(shop.shopTime?.closeAt || shop.closeAt)}
+                  </Item>
                 </Grid>
               </Grid>
             )}
@@ -193,30 +202,19 @@ export default function RegisApprove() {
             <Box sx={{}} className="mt-4">
               {shop && (
                 <Grid container spacing={2}>
-                  <Grid size={1}>
-                    <div>คำนำหน้า</div>
-                    <Item>-</Item>
-                  </Grid>
-                  <Grid size={3}>
+                  <Grid size={4}>
                     <div>ชื่อ</div>
                     <Item>{shop.shopkeeperData.name}</Item>
                   </Grid>
-                  <Grid size={3}>
+                  <Grid size={4}>
                     <div>นามสกุล</div>
                     <Item>{shop.shopkeeperData.surname}</Item>
                   </Grid>
-                  <Grid size={1}>
+                  <Grid size={4}>
                     <div>สัญชาติ</div>
                     <Item>{shop.shopkeeperData.nationality}</Item>
                   </Grid>
-                  <Grid size={1}>
-                    <div>ศาสนา</div>
-                    <Item>-</Item>
-                  </Grid>
-                  <Grid size={2}>
-                    <div>วัน เดือน ปีเกิด</div>
-                    <Item>-</Item>
-                  </Grid>
+
                   <Grid size={6}>
                     <div>เลขที่อยู่ / ข้อมูลสถานที่</div>
                     <Item>{shop.shopkeeperLocation.district}</Item>
