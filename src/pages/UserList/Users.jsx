@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { CircularProgress, Box, Typography } from '@mui/material';
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { CircularProgress, Box, Typography } from "@mui/material";
 import axios from "axios";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -22,27 +22,28 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
+  "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  '&:last-child td, &:last-child th': {
+  "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
 
 export default function UsersCustomer() {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true); 
-  
-
+  const [loading, setLoading] = useState(true);
+  console.log("api ", import.meta.env.VITE_API_URL);
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/admin/customer");
-      setUsers(res.data.data); 
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/customer`
+      );
+      setUsers(res.data.data);
     } catch (error) {
       console.error("Failed to fetch users", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -52,7 +53,7 @@ export default function UsersCustomer() {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
         <CircularProgress />
       </Box>
     );
@@ -74,11 +75,17 @@ export default function UsersCustomer() {
             users.map((user, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
-                  {user.fname|| '-'}
+                  {user.fname || "-"}
                 </StyledTableCell>
-                <StyledTableCell align="right">{user.lname || '-'}</StyledTableCell>
-                <StyledTableCell align="right">{user.email || '-'}</StyledTableCell>
-                <StyledTableCell align="right">{user.tel || '-'}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {user.lname || "-"}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {user.email || "-"}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {user.tel || "-"}
+                </StyledTableCell>
               </StyledTableRow>
             ))
           ) : (

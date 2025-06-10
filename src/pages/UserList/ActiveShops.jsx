@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { CircularProgress, Box, Typography } from '@mui/material';
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { CircularProgress, Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -23,27 +23,29 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
+  "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  '&:last-child td, &:last-child th': {
+  "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
 
 export default function ActiveShops() {
   const [shops, setShops] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const fetchRegistrationShops = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/customer/availableShop");
-      setShops(res.data.data); 
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/customer/availableShop`
+      );
+      setShops(res.data.data);
     } catch (error) {
       console.error("Failed to fetch shops", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -53,7 +55,7 @@ export default function ActiveShops() {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
         <CircularProgress />
       </Box>
     );
@@ -77,12 +79,18 @@ export default function ActiveShops() {
                 <StyledTableCell component="th" scope="row">
                   {shop.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{shop.branch || '-'}</StyledTableCell>
-                <StyledTableCell align="right">{shop.shopkeeperLocation?.province || '-'}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {shop.branch || "-"}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {shop.shopkeeperLocation?.province || "-"}
+                </StyledTableCell>
                 <StyledTableCell
                   align="right"
-                  sx={{ cursor: 'pointer', color: 'blue' }}
-                  onClick={() => navigate(`/users/approval/activeshops/${shop.shopId}`)}
+                  sx={{ cursor: "pointer", color: "blue" }}
+                  onClick={() =>
+                    navigate(`/users/approval/activeshops/${shop.shopId}`)
+                  }
                 >
                   รายละเอียดเพิ่มเติม
                 </StyledTableCell>

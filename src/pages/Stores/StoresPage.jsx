@@ -22,8 +22,10 @@ function StoresPage() {
   const fetchAvailableShops = async () => {
     setLoading(true);
     try {
-      // const res = await axios.get(`http://${apiUrl}/customer/availableShop/`);
-      const res = await axios.get("http://localhost:3000/admin/fetchShop/");
+      // const res = await axios.get(`${apiUrl}/customer/availableShop/`);
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/fetchShop/`
+      );
       console.log(res.data);
       setShops(res.data.data);
     } catch (error) {
@@ -94,7 +96,7 @@ function StoresPage() {
                   >
                     เวลาเปิด-ปิด: {shop.openAt || "-"} - {shop.closeAt || "-"}
                   </Typography>
-                  
+
                   <Typography
                     variant="body2"
                     sx={{ fontWeight: 400, color: "text.secondary" }}

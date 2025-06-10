@@ -17,14 +17,14 @@ import axios from "axios";
 const StatusCard = () => {
   const navigate = useNavigate();
   const [shops, setShops] = useState([]);
-  const [active, setActive]= useState([]);
-  const [user, setUsers]= useState([]);
-  const [inactive, setInactive]= useState([]);
+  const [active, setActive] = useState([]);
+  const [user, setUsers] = useState([]);
+  const [inactive, setInactive] = useState([]);
 
   const fetchRegistrationShops = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/admin/fetchRegisterShops/"
+        `${import.meta.env.VITE_API_URL}/admin/fetchRegisterShops/`
       );
       console.log("Regis Shops:", res.data);
       setShops(res.data.data);
@@ -35,36 +35,41 @@ const StatusCard = () => {
 
   const fetchActivesShops = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/customer/availableShop/");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/customer/availableShop/`
+      );
       console.log("Active Shops:", res.data);
       setActive(res.data.data);
     } catch (error) {
       console.error("Failed to fetch shops", error);
-    } 
+    }
   };
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/admin/customer");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/customer`
+      );
       console.log("Users:", res.data);
-      setUsers(res.data.data); 
+      setUsers(res.data.data);
     } catch (error) {
       console.error("Failed to fetch users", error);
-    } 
+    }
   };
 
   const fetchInactive = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/admin/fetchShop");
-      const filtered = res.data.data.filter(shop => shop.status === "inactive");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/fetchShop`
+      );
+      const filtered = res.data.data.filter(
+        (shop) => shop.status === "inactive"
+      );
       setInactive(filtered);
     } catch (error) {
       console.error("Failed to fetch shops", error);
-    } 
+    }
   };
-
-
-  
 
   useEffect(() => {
     fetchRegistrationShops();
@@ -122,7 +127,7 @@ const StatusCard = () => {
               <Box>
                 <Typography variant="subtitle1">{item.title}</Typography>
                 <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                  {item.count}
+                  {item?.count || "..."}
                 </Typography>
                 <Button
                   size="small"

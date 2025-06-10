@@ -38,7 +38,9 @@ export default function SimpleContainer() {
 
   const fetchRegistrationShops = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/admin/fetchShop");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/fetchShop`
+      );
       console.log("Fetched Shops:", res.data);
       setShops(res.data.data);
     } catch (error) {
@@ -61,7 +63,7 @@ export default function SimpleContainer() {
 
   const handleUpdateStatus = async () => {
     try {
-      await axios.post("http://localhost:3000/admin/updateStatus", {
+      await axios.post(`${import.meta.env.VITE_API_URL}/admin/updateStatus`, {
         uid: id,
         status,
       });
