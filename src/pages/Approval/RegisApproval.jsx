@@ -92,11 +92,6 @@ export default function RegisApprove() {
     fetchRegistrationShops();
   }, []);
 
-  const formatTime = (timeString) => {
-    if (!timeString) return "-";
-    const match = timeString.match(/\(([^)]+)\)/);
-    return match ? match[1] : timeString;
-  };
 
   if (loading) {
     return (
@@ -130,7 +125,7 @@ export default function RegisApprove() {
               <Grid container spacing={2}>
                 <Grid size={6}>
                   <div>ชื่อร้านค้า</div>
-                  <Item>{shop.shopName}</Item>
+                  <Item>{shop.name}</Item>
                 </Grid>
                 <Grid size={6}>
                   <div>สาขา</div>
@@ -171,11 +166,11 @@ export default function RegisApprove() {
                 </Grid>
                 <Grid size={3}>
                   <div>เวลาเปิด</div>
-                  <Item>{formatTime(shop.shopTime?.openAt)}</Item>
+                  <Item>{(shop.openAt)}</Item>
                 </Grid>
                 <Grid size={3}>
                   <div>เวลาปิด</div>
-                  <Item>{formatTime(shop.shopTime?.closeAt)}</Item>
+                  <Item>{(shop.closeAt)}</Item>
                 </Grid>
               </Grid>
             )}
