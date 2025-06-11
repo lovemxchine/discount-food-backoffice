@@ -20,6 +20,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -51,7 +52,7 @@ export default function RegisApprove() {
   const shop = shops.find((shop) => shop.id === id);
   const [openImage, setOpenImage] = useState(false);
   const sampleImageUrl = shop?.imgUrl?.certificateUrl;
-
+  const navigate = useNavigate();
   const handleConfirmation = async (status) => {
     try {
       const res = await axios.post(
@@ -65,8 +66,10 @@ export default function RegisApprove() {
       if (res.data.status === "success") {
         alert("ดำเนินการสำเร็จ");
         fetchRegistrationShops();
+        navigate("/users");
+        window.location.reload();
       } else {
-        alert("ดำเนินการไม่สำเร็จ");
+        throw new Error(res.data.message || "Operation failed");
       }
     } catch (error) {
       console.error("Error during confirmation:", error);
