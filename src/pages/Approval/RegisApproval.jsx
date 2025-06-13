@@ -64,7 +64,13 @@ export default function RegisApprove() {
       );
 
       if (res.data.status === "success") {
-        alert("ดำเนินการสำเร็จ");
+        ert("ดำเนินการสำเร็จ");
+        fetchRegistrationShops();
+        navigate("/users");
+        window.location.reload();
+        al;
+      } else if (res.data.status === "rejected") {
+        alert("การลงทะเบียนถูกปฏิเสธ");
         fetchRegistrationShops();
         navigate("/users");
         window.location.reload();
@@ -137,7 +143,7 @@ export default function RegisApprove() {
                 </Grid>
                 <Grid size={6}>
                   <div>สาขา</div>
-                  <Item>{shop.branch}</Item>
+                  <Item>{shop?.branch || "-"}</Item>
                 </Grid>
                 <Grid size={6}>
                   <div>อีเมล์</div>
