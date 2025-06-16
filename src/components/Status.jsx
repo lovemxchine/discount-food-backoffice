@@ -87,7 +87,7 @@ const StatusCard = () => {
       route: "/users/registrationshops",
     },
     {
-      title: "ร้านค้าในระบบ",
+      title: "ร้านค้าที่กำลังลดราคาในระบบ",
       count: active.length,
       icon: <StorefrontIcon />,
       bgColor: "#4CAF50",

@@ -7,6 +7,7 @@ import Container from "@mui/material/Container";
 import "../../App.css";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import SendIcon from "@mui/icons-material/Send";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -18,6 +19,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -44,11 +46,13 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function InactiveApprove() {
   const [shops, setShops] = useState([]);
+  const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const shop = shops.find((shop) => shop.id === id);
   const [openImage, setOpenImage] = useState(false);
   const sampleImageUrl = shop?.imgUrl?.certificateUrl;
+  const navigate = useNavigate();
 
   const fetchActivesShops = async () => {
     try {
@@ -69,7 +73,26 @@ export default function InactiveApprove() {
   useEffect(() => {
     fetchActivesShops();
   }, []);
-
+  const handleUpdateStatus = async () => {
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/admin/updateStatus`, {
+        uid: id,
+        status,
+      });
+      setSnackMsg("อัปเดตสถานะสำเร็จ");
+      setOpenSnack(true);
+      await fetchRegistrationShops();
+    } catch (err) {
+      console.error(err);
+      setSnackMsg(
+        err.response?.data?.status ?? "อัปเดตไม่สำเร็จ โปรดลองอีกครั้ง"
+      );
+      setOpenSnack(true);
+    } finally {
+      setStatus("");
+      navigate("/stores/approval");
+    }
+  };
   // const formatTime = (timeString) => {
   //   if (!timeString) return "-";
   //   const match = timeString.match(/\(([^)]+)\)/);
@@ -159,6 +182,33 @@ export default function InactiveApprove() {
                 onClick={() => setOpenImage(true)}
               >
                 ดูรูปใบทะเบียนพาณิชย์
+              </Button>
+            </div>
+            <div className="flex justify-center items-center mt-6 space-x-4">
+              <label htmlFor="status-select" className="font-medium">
+                สถานะ :
+              </label>
+
+              <select
+                id="status-select"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="bg-white border border-black rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">-- เลือกสถานะ --</option>
+                <option value="active">ใช้งานปกติ</option>
+                <option value="inactive">ระงับชั่วคราว</option>
+                <option value="disable">ระงับถาวร</option>
+              </select>
+
+              <Button
+                variant="contained"
+                endIcon={<SendIcon />}
+                sx={{ px: 2, py: 1, borderRadius: 2, textTransform: "none" }}
+                disabled={!status}
+                onClick={handleUpdateStatus}
+              >
+                ยืนยันการแก้ไข
               </Button>
             </div>
             <Divider sx={{ borderBottomWidth: "2px", margin: "2rem" }} />

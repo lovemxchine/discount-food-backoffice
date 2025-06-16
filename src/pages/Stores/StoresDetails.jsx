@@ -14,6 +14,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { useNavigate } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -28,7 +29,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function SimpleContainer() {
   const [status, setStatus] = useState("");
-
+  const navigate = useNavigate();
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
@@ -76,6 +77,9 @@ export default function SimpleContainer() {
         err.response?.data?.status ?? "อัปเดตไม่สำเร็จ โปรดลองอีกครั้ง"
       );
       setOpenSnack(true);
+    } finally {
+      setStatus("");
+      navigate("/stores/approval");
     }
   };
   return (
