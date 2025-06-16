@@ -24,7 +24,7 @@ function StoresPage() {
     try {
       // const res = await axios.get(`${apiUrl}/customer/availableShop/`);
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/admin/fetchShop?status=active`
+        `${import.meta.env.VITE_API_URL}/admin/fetchShop`
       );
       console.log(res.data);
       setShops(res.data.data);
@@ -99,9 +99,28 @@ function StoresPage() {
 
                   <Typography
                     variant="body2"
-                    sx={{ fontWeight: 400, color: "text.secondary" }}
+                    sx={{ fontWeight: 400 }}
+                    className={
+                      statusLabel[shop.status] == "ใช้งานปกติ"
+                        ? "text-green"
+                        : statusLabel[shop.status] == "ระงับชั่วคราว"
+                        ? "text-orange"
+                        : "text-red"
+                    }
                   >
-                    สถานะ: {statusLabel[shop.status] ?? "-"}
+                    สถานะ:
+                    <span
+                      className={
+                        statusLabel[shop.status] === "ใช้งานปกติ"
+                          ? "text-green-600"
+                          : statusLabel[shop.status] === "ระงับชั่วคราว"
+                          ? "text-orange-500"
+                          : "text-red-600"
+                      }
+                    >
+                      {" "}
+                      {statusLabel[shop.status] ?? "-"}
+                    </span>
                   </Typography>
                 </Box>
 
