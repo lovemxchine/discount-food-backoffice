@@ -24,7 +24,7 @@ function StoresPage() {
     try {
       // const res = await axios.get(`${apiUrl}/customer/availableShop/`);
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/admin/fetchShop/`
+        `${import.meta.env.VITE_API_URL}/admin/fetchShop?status=active`
       );
       console.log(res.data);
       setShops(res.data.data);

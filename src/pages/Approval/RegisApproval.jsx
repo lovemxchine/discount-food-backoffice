@@ -70,7 +70,7 @@ export default function RegisApprove() {
         window.location.reload();
         al;
       } else if (res.data.status === "rejected") {
-        alert("การลงทะเบียนถูกปฏิเสธ");
+        // alert("การลงทะเบียนถูกปฏิเสธ");
         fetchRegistrationShops();
         navigate("/users");
         window.location.reload();

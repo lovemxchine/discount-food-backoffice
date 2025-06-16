@@ -127,7 +127,7 @@ const StatusCard = () => {
               <Box>
                 <Typography variant="subtitle1">{item.title}</Typography>
                 <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                  {item?.count || "..."}
+                  {item?.count || 0}
                 </Typography>
                 <Button
                   size="small"
