@@ -64,7 +64,7 @@ export default function RegisApprove() {
       );
 
       if (res.data.status === "success") {
-        ert("ดำเนินการสำเร็จ");
+        // ert("ดำเนินการสำเร็จ");
         fetchRegistrationShops();
         navigate("/users");
         window.location.reload();
